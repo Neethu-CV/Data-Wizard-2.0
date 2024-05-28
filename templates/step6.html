@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATA WIZARD</title>
+    <link rel="stylesheet" href="{{ url_for('send_static', path='assets/css/styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('send_static', path='assets/images/logo.jpg') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-image: url("{{ url_for('send_static', path='assets/images/background_step2.png') }}");
+            background-size: cover;
+            background-position: top;
+            background-repeat: no-repeat;
+            position: fixed;
+        }
+    </style>
+    
+</head>
+
+<body>
+
+<h1 class="chat_title">DATA WIZARD</h1>
+
+<div class="progress-bar">
+    <div class="step {% if steps_status['step_1'] == 'done' %}done{% endif %}" data-step="Loading data">1</div>
+    <div class="step {% if steps_status['step_2'] == 'done' %}done{% elif steps_status['step_2'] == 'active' %}active{% endif %}" data-step="Pre-understanding data">2</div>
+    <div class="step {% if steps_status['step_3'] == 'done' %}done{% elif steps_status['step_3'] == 'active' %}active{% endif %}" data-step="Pre-processing data">3</div>
+    <div class="step {% if steps_status['step_4'] == 'done' %}done{% elif steps_status['step_4'] == 'active' %}active{% endif %}" data-step="Understanding data">4</div>
+    <div class="step {% if steps_status['step_5'] == 'done' %}done{% elif steps_status['step_5'] == 'active' %}active{% endif %}" data-step="Model selection">5</div>
+    <div class="step {% if steps_status['step_6'] == 'done' %}done{% elif steps_status['step_6'] == 'active' %}active{% endif %}" data-step="Validation">6</div>
+</div>
+
+<div class="chatbot">
+    <ul class="chatbox">
+        {% if selected_model is defined %}
+            <p class="output-prompt">Based on the Selected Model: {{ selected_model }}</p>
+        {% endif %}
+        <li class="chat incoming">
+            <p>{{ accuracy_table | safe }}</p>
+        </li>
+        {% for message in train_details %}
+        <li class="chat incoming">
+            <p>{{ message | safe }}</p>
+        </li>
+        {% endfor %}
+        
+        <button class="scroll-down" id="scroll-btn" style="display: none;">
+            <span class="material-symbols-outlined down-btn">keyboard_double_arrow_down</span>
+        </button>
+    </ul>
+</div>
+
+<div class="traversal-buttons">
+    <form id="select_columns_form" action="/Model_Selection" method="post">
+        <div> 
+            <input id="back_step_6" type="submit" value="Back" class="back-step-two">
+        </div>
+    </form>
+    <form id="select_columns_form" action="/final" method="post">
+        <div> 
+            <input id="next_step_6" type="submit" value="Done" class="next-step-two">
+        </div>
+    </form>
+</div>
+
+
+<div class="code-buttons">
+    <button onclick="opencode()" id="code-btn" class="eye-code-btn">
+        <div class="image-container"><img src="/static/assets/images/side eye.gif"></div>
+        <span>Copy Code</span>
+    </button>
+</div>
+<div id="codeModal" class="code-modal" role="dialog" aria-labelledby="dialog1Title" aria-describedby="dialog1Desc" style="display: none;">
+    <div class="code-modal-content" >
+        <span class="close" onclick="closecode()">&times;</span>
+        <pre id="dialog1Title" class="no_input" style="display: none;">
+            {{ python_code|safe }}
+        </pre>
+        <p>Code Copied!!</p>
+        <span>Well done!</span> 
+        <p>You can now use it as if it were your own.</p>
+    </div>
+</div>
+
+</body>
+<script src="{{ url_for('send_static', path='assets/js/main.js') }}"></script>
+</html>

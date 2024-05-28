@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DATA WIZARD</title>
+        <link rel="stylesheet" href="{{ url_for('send_static', path='assets/css/styles.css') }}">
+        <style>
+            body {
+                background-image: url("{{ url_for('send_static', path='assets/images/background.jpg') }}");
+            }
+        </style>
+        <link rel="shortcut icon" href="{{ url_for('send_static', path='assets/images/logo.jpg') }}" type="image/x-icon">
+    </head>
+    <body>
+        <h1 class="main_title">DATA WIZARD</h1>
+        <p class="about_dw">Crack the Code:<br> Empowering Data Science with<br> Automated Model Selection!</p>
+        <button onclick="openModal()" class="get_started" aria-label="Start">Get Started !</button>
+        <div id="myModal" class="modal" role="dialog" aria-labelledby="dialog1Title" aria-describedby="dialog1Desc">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <p id="dialog1Title" class="no_input">
+                    <span>YO</span>, how many <span>input files</span> do you need?<br>
+                    <span>Let me know and I'll get it sorted for you.</span></p>
+                <div class="button-container">
+                    <button type="button" onclick="setButtonValue('1_file')" aria-label="Select Single File">Single File</button>
+                    <button type="button" onclick="setButtonValue('2_file')" aria-label="Select Double Files">Double Files</button>
+                </div>
+                <form id="fileForm" action="/Pre_understanding" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="button_clicked" id="button_clicked" value="">
+                    <div id="fileInputsContainer" class="file-input" aria-describedby="FileInputsContainerDesc"></div>
+                    <button id="submitBtn" type="submit" class="submit-button" style="display: none;" aria-label="Submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </body>
+    <script src="{{ url_for('send_static', path='assets/js/main.js') }}">
+    </script>
+</html>
